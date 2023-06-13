@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('document')->unique();
-            $table->timestamp('birthdate');
+            $table->dateTime('birthdate');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
             $table->string('state');

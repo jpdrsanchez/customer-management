@@ -2,37 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CustomerRequest;
+use App\Http\Resources\CreateCustomerResource;
+use App\Http\Resources\ShowCustomerResource;
+use App\Modules\Customer\Actions\CreateCustomer;
+use App\Modules\Customer\Actions\ListCustomers;
+use App\Modules\Customer\Actions\UpdateCustomer;
+use App\Modules\Customer\Data\CreateCustomerData;
+use App\Modules\Customer\Data\CustomerSearchData;
+use App\Modules\Customer\Data\UpdateCustomerData;
 use App\Modules\Customer\Models\Customer;
 
 class CustomerController extends Controller
 {
-    public function index()
-    {
-        return Customer::all();
+    public function __construct(
+        private readonly CreateCustomer $createCustomer,
+        private readonly ListCustomers $listCustomers,
+        private readonly UpdateCustomer $updateCustomer
+    ) {
     }
 
-    public function store(CustomerRequest $request)
+    public function index(CustomerSearchData $request)
     {
-        return Customer::create($request->validated());
+        $customers = $this->listCustomers->execute(collect($request->all()));
+
+        return ShowCustomerResource::collection($customers);
+    }
+
+    public function store(CreateCustomerData $request)
+    {
+        $customer = $this->createCustomer->execute($request);
+
+        return new CreateCustomerResource($customer);
     }
 
     public function show(Customer $customer)
     {
-        return $customer;
+        return new ShowCustomerResource($customer);
     }
 
-    public function update(CustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerData $request, Customer $customer)
     {
-        $customer->update($request->validated());
+        $this->updateCustomer->execute(collect($request->all()), $customer);
 
-        return $customer;
+        return response()->noContent();
     }
 
     public function destroy(Customer $customer)
     {
         $customer->delete();
 
-        return response()->json();
+        return response()->noContent();
     }
 }

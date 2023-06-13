@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::name('api.')->group(function () {
+    Route::apiResource(
+        'customers',
+        CustomerController::class
+    )
+         ->whereUuid('customer')
+         ->missing(function () {
+             throw new HttpException(
+                 404,
+                 'The provided customer could not be found'
+             );
+         });
 });
