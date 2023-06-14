@@ -35,7 +35,7 @@ Caso não tenha o valet instalado, ou esteja o utilizando sem https, remova este
 valetTls: 'customer-management.test'
 ```
 
-Após isso realize a instação do composer, e do yarn
+Após isso realize a instalação do composer, e do yarn
 
 ```zsh
 composer install
