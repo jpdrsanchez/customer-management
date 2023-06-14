@@ -28,7 +28,7 @@ Copie o arquivo .env.example para o .env
 cp .env.example .env
 ```
 
-Caso não tenha o valet instalado configura a váriavel `APP_URL` com o endereço que será usado na aplicação.
+Caso não tenha o valet instalado configure a váriavel `APP_URL` com o endereço que será usado na aplicação.
 Caso não tenha o valet instalado, ou esteja o utilizando sem https, remova este trecho no arquivo `vite.config.js`:
 
 ```javascript
