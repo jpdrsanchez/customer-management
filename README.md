@@ -1,66 +1,127 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Customer Management Project
 
-## About Laravel
+## O Projeto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Um painel simples para cadastro, listagem, atualização e deleção de clientes.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Laravel](https://laravel.com/).
+- [ReactJS](https://react.dev).
+- [Typescript](https://www.typescriptlang.org).
+- [Tailwind](https://tailwindcss.com).
 
-## Learning Laravel
+## Requisitos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.1 ou superior e Composer.
+- Docker e Docker Compose.
+- NodeJS 16 ou Superior.
+- Laravel Valet.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Rodando o Projeto
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Copie o arquivo .env.example para o .env
 
-## Laravel Sponsors
+```zsh
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Caso não tenho o valet instalado configura a váriavel `APP_URL` com o endereço que será usado na aplicação.
+Caso não esteja usando o valet, ou esteja o utilizando sem https, remova este trecho no arquivo `vite.config.js`:
 
-### Premium Partners
+```javascript
+valetTls: 'customer-management.test'
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Após isso realize a instação do composer, e do yarn
 
-## Contributing
+```zsh
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```zsh
+yarn && yarn build
+```
 
-## Code of Conduct
+Caso não utilize o docker, mude as variáveis do banco de dados no `.env` para as váriaveis que irá usar.
+Caso utilize o docker rode o seguinte comando
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```zsh
+docker compose up -d --build
+```
 
-## Security Vulnerabilities
+Após isso rode as migrations, o parametro --seed é opicional caso queira dados de exemplo já cadastrados no banco:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```zsh
+php artisan migrate:refresh --seed
+```
 
-## License
+Para rodar os testes unitários ou feature tests digite (Caso não esteja usando o docker é necessário parametrizar as
+informações do banco de dados no arquivo `phpunit.xml`):
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```zsh
+php artisan test --testsuite=Unit --stop-on-failure
+php artisan test --testsuite=Feature --stop-on-failure
+```
+
+## Endpoints
+
+Listagem e filtragem de todos os clientes:
+
+`GET /api/customers`
+
+```
+Query Params:
+page?: int
+per_page?: int
+name?: string
+document?: string
+birthdate?: string (Y-m-d)
+gender?: string ('male' | 'female')
+state?: string
+city?: string
+```
+
+Criação de Cliente:
+
+`POST /api/customers`
+
+```
+Body Params:
+name: string
+document: string
+birthdate: string (Y-m-d)
+address: string
+gender: string ('male' | 'female')
+state: string
+city: string
+```
+
+Deleção de Cliente:
+
+`DELETE /api/customers/{:customerId}`
+
+Atualização de Cliente:
+
+`PUT /api/customers/{:customerId}`
+
+```
+Body Params:
+name?: string
+document?: string
+birthdate?: string (Y-m-d)
+address?: string
+gender?: string ('male' | 'female')
+state?: string
+city?: string
+```
+
+Exibição de dados de um único cliente:
+
+`GET /api/customers/{:customerId}`
+
+## Frontend
+
+O frontend foi feito em react no próprio projeto, e está localizado em `resources/src`
