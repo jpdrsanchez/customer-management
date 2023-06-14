@@ -4,6 +4,8 @@
 
     <description>PHPCS ruleset for Customer Management App.</description>
 
+    <exclude-pattern>resources/*</exclude-pattern>
+
     <file>tests</file>
     <file>app</file>
 

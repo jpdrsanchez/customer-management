@@ -1,0 +1,21 @@
+{
+  "resources/src/assets/upd8-logo.png": {
+    "file": "assets/upd8-logo-796a563a.png",
+    "src": "resources/src/assets/upd8-logo.png"
+  },
+  "resources/src/index.css": {
+    "file": "assets/index-8f9e1e54.css",
+    "src": "resources/src/index.css"
+  },
+  "resources/src/index.tsx": {
+    "assets": [
+      "assets/upd8-logo-796a563a.png"
+    ],
+    "css": [
+      "assets/index-8f9e1e54.css"
+    ],
+    "file": "assets/index-30fded7e.js",
+    "isEntry": true,
+    "src": "resources/src/index.tsx"
+  }
+}

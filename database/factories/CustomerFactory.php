@@ -28,7 +28,7 @@ class CustomerFactory extends Factory
                         true
                     )
             ),
-            'birthdate'  => CarbonImmutable::now(),
+            'birthdate'  => CarbonImmutable::make(fake()->date(max: '2004-01-01')),
             'gender'     => $this->faker->randomElement(Gender::class),
             'address'    => $this->faker->address(),
             'state'      => $this->faker->word().$this->faker->word(),
