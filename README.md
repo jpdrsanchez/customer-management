@@ -43,6 +43,8 @@ composer install
 
 ```zsh
 yarn && yarn build
+ou
+npm install && npm run build
 ```
 
 Caso não utilize o docker, mude as variáveis do banco de dados no `.env` para as váriaveis que irá usar.
